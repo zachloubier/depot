@@ -8,6 +8,10 @@
 </head>
 <body class='<%= controller.controller_name %>'>
 
+<% if notice %>
+	<p id="notice"><%= notice %>
+<% end %>
+
 <%= yield %>
 
 </body>
