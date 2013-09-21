@@ -83,4 +83,48 @@ class LineItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def decrement
+    @cart = current_cart
+
+    @line_item = @cart.line_items.find_by_id(params[:id])
+    @line_item = @line_item.change_quantity('decrement', @line_item.id)
+
+    respond_to do |format|
+      if @line_item.save
+        format.html { redirect_to store_path, notice: 'line item updated' }
+        format.js { @current_item = @line_item }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.js { @current_item = @line_item }
+        format.json { render json: @line_item.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def increment
+    @cart = current_cart
+
+    @line_item = @cart.line_items.find_by_id(params[:id])
+    @line_item = @line_item.change_quantity('increment', @line_item.id)
+
+    respond_to do |format|
+      if @line_item.save
+        format.html { redirect_to store_path, notice: 'line item updated' }
+        format.js { @current_item = @line_item }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.js { @current_item = @line_item }
+        format.json { render json: @line_item.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 end
+
+
+
+
+
